@@ -14,10 +14,10 @@
 </head>
 <body>
 <div class="box">
-  <h2>正在启动 CS2…</h2>
+  <h2 id="title">正在启动 CS2…</h2>
   <p id="target"></p>
   <p><a id="btn" class="btn" href="#">点这里手动启动</a></p>
-  <p class="hint">如果浏览器没有反应，请确认已安装 Steam；也可以复制下面的链接到浏览器地址栏打开。</p>
+  <p class="hint">已安装 Steam 的话会自动打开游戏并连接服务器；如果没反应，点上面的按钮或复制下面的链接到浏览器打开。</p>
   <p><a id="raw" href="#"></a></p>
 </div>
 <script>
@@ -26,17 +26,22 @@
   var host = p.get('host') || p.get('ip') || '';
   var port = p.get('port') || '27015';
   if (!host) {
-    document.querySelector('h2').textContent = '缺少服务器地址';
+    document.getElementById('title').textContent = '缺少服务器地址';
     return;
   }
-  var url = 'steam://connect/' + host + ':' + port;
+  // 与 darkrp.cn 相同的写法：rungame + 固定 client id + +connect，末尾带 /
+  var url = 'steam://rungame/730/76561202255233023/+connect ' + host + ':' + port + '/';
   document.getElementById('target').textContent = '服务器：' + host + ':' + port;
   var btn = document.getElementById('btn');
   var raw = document.getElementById('raw');
   btn.href = url;
   raw.href = url;
   raw.textContent = url;
-  setTimeout(function () { location.href = url; }, 200);
+  setTimeout(function () { location.href = url; }, 150);
+  setTimeout(function () {
+    document.getElementById('title').textContent = '已启动 Steam';
+    try { window.close(); } catch (e) {}
+  }, 900);
 })();
 </script>
 </body>
