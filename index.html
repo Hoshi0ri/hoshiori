@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>正在启动 CS2…</title>
+<style>
+  body { background:#12121c; color:#e8e8f0; font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; text-align:center; }
+  .box { padding:24px; max-width:420px; }
+  a { color:#4fc3f7; word-break:break-all; }
+  .hint { color:#8a90a8; font-size:13px; margin-top:14px; line-height:1.6; }
+  .btn { display:inline-block; margin-top:10px; padding:10px 18px; border-radius:8px; background:#4fc3f7; color:#0b0b12; font-weight:600; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>正在启动 CS2…</h2>
+  <p id="target"></p>
+  <p><a id="btn" class="btn" href="#">点这里手动启动</a></p>
+  <p class="hint">如果浏览器没有反应，请确认已安装 Steam；也可以复制下面的链接到浏览器地址栏打开。</p>
+  <p><a id="raw" href="#"></a></p>
+</div>
+<script>
+(function () {
+  var p = new URLSearchParams(location.search);
+  var host = p.get('host') || p.get('ip') || '';
+  var port = p.get('port') || '27015';
+  if (!host) {
+    document.querySelector('h2').textContent = '缺少服务器地址';
+    return;
+  }
+  var url = 'steam://connect/' + host + ':' + port;
+  document.getElementById('target').textContent = '服务器：' + host + ':' + port;
+  var btn = document.getElementById('btn');
+  var raw = document.getElementById('raw');
+  btn.href = url;
+  raw.href = url;
+  raw.textContent = url;
+  setTimeout(function () { location.href = url; }, 200);
+})();
+</script>
+</body>
+</html>
